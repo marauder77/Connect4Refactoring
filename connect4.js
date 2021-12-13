@@ -3,7 +3,7 @@ class Game {
     this.players = [p1, p2];
     this.height = height;
     this.width = width; 
-    this.currPlayer = p1;
+    this.currentPlayer = p1;
     this.makeBoard()
     this.makeHtmlBoard()
     this.gameOver = false;
@@ -11,9 +11,9 @@ class Game {
   }
 
   makeBoard() {
-    this.board = [ ];
+    this.board = [];
     for (let y = 0; y < this.height; y++) {
-      this.board.push(Array.from({ length: this.width }));
+      this.board.push(Array.from({ length:this.width}));
     }
   }
   makeHtmlBoard() {
@@ -22,10 +22,7 @@ class Game {
 
     const top = document.createElement('tr');
     top.setAttribute('id', 'column-top');
-
-    this.handleGameClick = this.handleClick.bind(this);
-
-    top.addEventListener("click", this.handleGameClick);
+    top.addEventListener('click', this.handleClick.bind(this));
 
     for (let x = 0; x < this.width; x++) {
       const headCell = document.createElement('td');
@@ -60,7 +57,7 @@ findSpotForCol(x) {
 placeInTable(y, x) {
   const piece = document.createElement('div');
   piece.classList.add('piece');
-  piece.style.backgroundColor = this.currPlayer.color;
+  piece.style.backgroundColor = this.currentPlayer.color;
   piece.style.top = -50 * (y + 2);
 
   const spot = document.getElementById(`${y}-${x}`);
@@ -69,27 +66,27 @@ placeInTable(y, x) {
 
 endGame(msg) {
   alert(msg);
-  const top = document.querySelector("#column-top");
-  top.removeEventListener("click", this.handleGameClick)
 }
 
 handleClick(evt) {
   const x = +evt.target.id;
-  const y = this.heightfindSpotForCol(x);
+
+  const y = this.findSpotForCol(x);
   if (y === null) {
     return;
   }
 
-this.board[y][x] = this.currPlayer;
+this.board[y][x] = this.currentPlayer;
   this.placeInTable(y, x);
   
   // check for win
   if (this.checkForWin()) {
     this.gameOver = true;
-    return this.endGame(`Player ${currPlayer} won!`);
+    return this.endGame(`Player ${currentPlayer} won!`);
   }
-  this.currPlayer = 
-  this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
+  //switch players
+  this.currentPlayer = 
+  this.currentPlayer === this.players[0] ? this.players[1] : this.players[0];
 
   
   if (this.board.every(row => row.every(cell => cell))) {
@@ -109,7 +106,7 @@ checkForWin() ;{
         y < this.height &&
         x >= 0 &&
         x < this.width  &&
-        this.board[y][x] === this.currPlayer
+        this.board[y][x] === this.currentPlayer
     );
  
 
@@ -140,8 +137,7 @@ class Player {
 document.getElementById('start-game').addEventListener ('click'), () => {
   let p1 = new Player(document.getElementById('p1Color').value);
   let p2 = new Player(document.getElementById('p2Color').value); 
-  new Game(6, 7);
+  new Game(p1, p2);
 
     }
-  }
-}
+  }}

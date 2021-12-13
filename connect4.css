@@ -24,3 +24,7 @@
 #column-top td:hover {
 	background-color: gold;
 }
+
+#start-game {
+	border-radius: 25%;
+}
